@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+</head>
+<body>
+    <div class="container p-4 my-4">
+<div class="row gap-2">
+    <div class="col">
+        <form action="" class="shadow p-3 border bg-light">
+             <fieldset><legend>Info personnelles</legend></fieldset>
+            <div class="mb-3">
+                    <label for="">Pays d'origine</label>
+                    <select name="" id="pays" class="form-select">
+                        <option value=""></option>
+                    </select>
+           
+            </div>
+               <div class="mb-3">
+                    <label for="">CIN</label>
+                    <input type="text" id="cin" class="form-control">
+           
+              </div>
+             <div class="mb-3">
+                    <label for="">Nom</label>
+                    <input type="text" id="nom" class="form-control">
+           
+             </div>
+          <div class="mb-3">
+                    <label for="">Prénom</label>
+                    <input type="text" id="prenom" class="form-control">
+           
+            </div>
+        </form>
+    </div>
+      <div class="col">
+        <form action="" class="shadow p-3 border bg-light">
+             <fieldset><legend>Info matchs</legend></fieldset>
+            <div class="mb-3">
+                    <label for="">Sélectionner le match</label>
+                    <select name="" multiple id="matchSelect" class="form-select">
+                        <option value=""></option>
+                    </select>
+           
+            </div>
+               <div class="mb-3">
+                    <label for="">Catégorie</label>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="cat" value="categorie1">
+                        <label class="form-check-label">Catégorie1</label>
+                    </div>
+                   <div class="form-check">
+                        <input type="radio" class="form-check-input" name="cat" value="categorie2">
+                        <label class="form-check-label">Catégorie2</label>
+                    </div>
+             
+             
+             
+                </div>
+                <button type="button" class="btn btn-lg btn-primary" id="addTicker">
+                    Vendre Ticket
+                </button>
+             
+        </form>
+    </div>
+</div>
+
+<div class="mt-4">
+    <h2>Liste des tickets</h2>
+    <table class="table table-striped" i>
+        <thead><tr><th>CIN</th><th>Nom</th><th>Pays</th><th>codeMatch</th><th>Date match</th><th>categorie</th><th>Prix</th></tr></thead>
+        
+        <tbody id="tableTicket"></tbody>
+    </table>
+
+
+</div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script>
+
+    //charger le select #pays
+    $("#pays").html(['Maroc','Mali','Congo','Tunisie','Egypte'].map(p=>`<option value="${p}">${p}</option>`).join(''));
+    //question1
+    let matchs=[];
+    let tickets=[];
+   //question2 get data
+   /*fetch("match.json").then(res=>res.json()).then(data=>{
+           matchs=data;
+           console.table(matchs);
+          // remplirListMatchs();
+
+   });*///end fetch
+    //Q2 en utilisant XMLHttpRequest
+    
+     let xhr=new XMLHttpRequest();
+     xhr.open("GET","match.json",true);
+     xhr.onload=function(){
+        if(xhr.status==200 && xhr.readyState==4){
+             matchs=JSON.parse(xhr.responseText);
+            console.log(matchs);
+           
+            remplirListMatchs();
+
+        }
+
+     }
+     xhr.send();
+     //question3
+     const remplirListMatchs=()=>{
+      /*let ch='';
+      for(let m of matchs){
+        ch+=`<option value="${m.codematch}">${m.equipe1}Vs ${m.equie2} - ${m.datematch}</option>`;
+
+      }
+       $('#matchSelect').html(ch);*/
+
+
+
+      $('#matchSelect').html(matchs.map(m=>`<option value="${m.codematch}" data-price=${m.prix}>${m.equipe1}Vs ${m.equipe2} + ${m.datematch}</option>`).join(''));
+
+
+     }
+
+     //question4 
+     const existTicket=(cin,codeMatch)=>{
+           let exist=tickets.find(t=>t.codeCin===cin.trim() && t.codematch===codeMatch);
+           console.log(exist);
+           if(exist){
+            window.alert("exist déja !!!");
+            return true;}
+          else{return false;}
+     }
+
+     //Question 5 
+     const Valider=()=>{
+        
+          pays=$("#pays").val();
+          cin=$("#cin").val();
+          nom=$("#nom").val();
+          prenom=$("#prenom").val();
+
+          match=document.querySelector('#matchSelect').selectedOptions[0].value;
+          prix=document.querySelector('#matchSelect').selectedOptions[0].dataset.price;
+          alert(cin+' - '+match);
+          categorie=$(":radio:checked").val();
+         let regCin=/^[A-Z]\d{6}|[A-Z]{2}\d{5}$/;
+       //  return !((pays==""||cin=="")||(!regCin.test(cin) && pays.toUpperCase()=="MAROC")||existTicket());
+       if(pays==""||cin==""||prenom==""||categorie=="") return false;
+       else if(pays.toUpperCase()=="MAROC" && !regCin.test(cin)) return false;
+       else if(existTicket(cin,match)==true) return false;
+       else return true;
+
+       }
+  const changerColor=(e)=>{
+      
+          $(e.target).css('backgroundColor','blue');
+
+}
+
+const resetColor=(e)=>{
+      
+          $(e.target).css('backgroundColor','white');
+
+}
+
+
+     //Question 6.a
+     const AfficherTickets=()=>{
+       $('#tableTicket').html(tickets.map(t=>`<tr onmouseover='changerColor(event)' onmouseout='resetColor(event)'><td>${t.cin}</td><td>${t.nom} ${t.prenom}</td><td>${t.pays}</td><td>${t.match}</td><td>${t.dateMatch}</td><td>${t.categorie}</td><td>${t.prix}</td></tr>`).join(''));
+     }
+
+  AfficherTickets();
+//Question7 
+     $("#addTicker").on('click',function(){
+        if(Valider()){
+        let dateMatch=document.querySelector('#matchSelect').selectedOptions[0].textContent.split('+')[1];
+       if(categorie=="categorie2")prix*=2;
+        let newT={cin,nom,prenom,pays,match,dateMatch,categorie,prix};
+         tickets.push(newT);
+         AfficherTickets();
+
+
+        }
+        else{
+            alert('erreur');
+        }
+     });
+</script>
+
+
+</body>
+</html>
