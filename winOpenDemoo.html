@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+ <button type="button" onclick="ouvrir()">ouvrir Jumia</button>
+
+<script type="text/javascript">
+//syntaxe générale 
+//window.open(url,[name,options])
+window.alert('Bonjour');
+window.open('https://www.jumia.ma/'); //non auatorisé , doit être associée à un event clic
+
+  function ouvrir(){
+   //let w=window.open('https://www.jumia.ma/',"_parent","width=300,height=300");//ouvrir dans la meme fenêtre
+   //w.document.body.innerHTML='new Content !!!';//non autorisé
+  //let w=window.open('https://www.jumia.ma/','_blank');//_self et '' ont le même effet de _blank
+  //let w=window.open("./page2.html","_parent");//width:100% et height:100%
+  //let w=window.open("./page2.html","popup","width=200,height=250");
+  //popup =>unique name permettant de modifier les options de la page demandée
+   let w=window.open("./page2.html","newPage","width=200,height=350");
+   //ouvre page2.html sur la même fenêtre
+}
+
+
+
+</script>
+
+</body>
+</html>

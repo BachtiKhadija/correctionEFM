@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+ <h2>Liste de personnes</h2>
+ <table>
+    <thead><tr><th>Code</th><th>Nom</th><th>Action</th></tr></thead>
+    <tbody id="content"></tbody>
+ </table>
+<script type="text/javascript">
+  let users=[{code:100,nom:"u1",adresse:"adresee u1"},{code:100,nom:"u1",adresse:"adresee u1"},{code:100,nom:"u1",adresse:"adresee u1"},{code:100,nom:"u1",adresse:"adresee u1"},{code:200,nom:"u5",adresse:"adresee u5"}];
+  //affichage de données
+  users.forEach(function(u,i){
+document.querySelector('#content').innerHTML+=`<tr><td>${u.code}</td><td>${u.nom}</td><td><button type="button" onclick="show(${i})">Details</button></td></tr>`
+
+  });
+  //définir show
+  const show=(i)=>{
+      const u=users[i];
+      let ch=`<ul><li>${u.code}</li><li>${u.nom}</li><li>${u.adresse}</li></ul>`;
+      let w=window.open('','popup',"width=300,height=200,top=100,left=150");
+      w.document.body.innerHTML=ch;
+
+  }
+
+
+
+
+</script>
+
+
+
+
+
+    
+</body>
+</html>

@@ -73,7 +73,7 @@
 <div class="mt-4">
     <h2>Liste des tickets</h2>
     <table class="table table-striped" i>
-        <thead><tr><th>CIN</th><th>Nom</th><th>Pays</th><th>codeMatch</th><th>Date match</th><th>categorie</th><th>Prix</th></tr></thead>
+        <thead><tr><th>CIN</th><th>Nom</th><th>Pays</th><th>codeMatch</th><th>Date match</th><th>categorie</th><th>Prix</th><th></th>Imprimer</th></tr></thead>
         
         <tbody id="tableTicket"></tbody>
     </table>
@@ -131,9 +131,9 @@
 
      //question4 
      const existTicket=(cin,codeMatch)=>{
-           let exist=tickets.find(t=>t.codeCin===cin.trim() && t.codematch===codeMatch);
+           let exist=tickets.find(t=>t.cin==cin.trim() && t.match==codeMatch);
            console.log(exist);
-           if(exist){
+           if(exist!=undefined){
             window.alert("exist déja !!!");
             return true;}
           else{return false;}
@@ -174,7 +174,7 @@ const resetColor=(e)=>{
 
      //Question 6.a
      const AfficherTickets=()=>{
-       $('#tableTicket').html(tickets.map(t=>`<tr onmouseover='changerColor(event)' onmouseout='resetColor(event)'><td>${t.cin}</td><td>${t.nom} ${t.prenom}</td><td>${t.pays}</td><td>${t.match}</td><td>${t.dateMatch}</td><td>${t.categorie}</td><td>${t.prix}</td></tr>`).join(''));
+       $('#tableTicket').html(tickets.map(t=>`<tr onmouseover='changerColor(event)' onmouseout='resetColor(event)'><td>${t.cin}</td><td>${t.nom} ${t.prenom}</td><td>${t.pays}</td><td>${t.match}</td><td>${t.dateMatch}</td><td>${t.categorie}</td><td>${t.prix}</td><td><button onclick="imprimer(${t})">print</button></td></tr>`).join(''));
      }
 
   AfficherTickets();
@@ -193,6 +193,12 @@ const resetColor=(e)=>{
             alert('erreur');
         }
      });
+
+     const imprimer=(t)=>{
+             let w=window.open("","_blank");
+             w.document.write="bonjour";
+
+     }
 </script>
 
 
